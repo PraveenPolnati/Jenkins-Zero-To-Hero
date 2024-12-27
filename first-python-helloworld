@@ -1,17 +1,20 @@
 pipeline {
     agent none
     stages {
-        stage('Run Hello World') {
+        stage('Print hlo 10,000 times') {
             agent {
                 docker { image 'python:3.9-slim' }
             }
             steps {
-                // Optionally create the file dynamically
                 script {
-                    writeFile file: 'helloworld.py', text: 'print("Hello, World!")'
+                    // Write the Python script dynamically
+                    writeFile file: 'print_hlo.py', text: '''
+for _ in range(10000):
+    print("hlo")
+'''
                 }
-                // Execute the Python script
-                sh 'python3 helloworld.py'
+                // Run the Python script
+                sh 'python3 print_hlo.py'
             }
         }
     }
